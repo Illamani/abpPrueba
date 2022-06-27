@@ -1,9 +1,9 @@
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookService, BookDto, bookTypeOptions } from '@proxy/books';
-import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
+import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-book',
@@ -12,10 +12,14 @@ import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
   providers: [ListService, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }],
 })
 export class BookComponent implements OnInit {
-  selectedBook = {} as BookDto;
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
+
+  selectedBook = {} as BookDto;
+
   form: FormGroup;
+
   bookTypes = bookTypeOptions;
+
   isModalOpen = false;
 
   constructor(
@@ -38,6 +42,13 @@ export class BookComponent implements OnInit {
     this.buildForm();
     this.isModalOpen = true;
   }
+  delete(id: string) {
+    this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe(status => {
+      if (status === Confirmation.Status.confirm) {
+        this.bookService.delete(id).subscribe(() => this.list.get());
+      }
+    });
+  }
   editBook(id: string) {
     this.bookService.get(id).subscribe(book => {
       this.selectedBook = book;
@@ -51,13 +62,6 @@ export class BookComponent implements OnInit {
       type: [null, Validators.required],
       publishDate: [null, Validators.required],
       price: [null, Validators.required],
-    });
-  }
-  delete(id: string) {
-    this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe(status => {
-      if (status === Confirmation.Status.confirm) {
-        this.bookService.delete(id).subscribe(() => this.list.get());
-      }
     });
   }
   save() {
