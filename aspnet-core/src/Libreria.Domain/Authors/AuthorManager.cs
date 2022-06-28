@@ -9,7 +9,7 @@ using Volo.Abp.Domain.Services;
 
 namespace Libreria.Authors
 {
-    internal class AuthorManager : DomainService
+    public class AuthorManager : DomainService
     {
         private readonly IAuthorRepository _authorRepository;
 

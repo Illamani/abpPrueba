@@ -18,6 +18,20 @@ public class LibreriaPermissionDefinitionProvider : PermissionDefinitionProvider
 
         booksPermission.AddChild(LibreriaPermissions.Books.Delete, L("Permission:Books.Delete"));
 
+
+        var authorsPermission = 
+            bookStoreGroup.AddPermission(
+            LibreriaPermissions.Authors.Default, L("Permission:Authors"));
+
+            authorsPermission.AddChild(
+                LibreriaPermissions.Authors.Create, L("Permission:Authors.Create"));
+
+            authorsPermission.AddChild(
+                LibreriaPermissions.Authors.Edit, L("Permission:Authors.Edit"));
+
+            authorsPermission.AddChild(
+                LibreriaPermissions.Authors.Delete, L("Permission:Authors.Delete"));
+            
         //Define your own permissions here. Example:
         //myGroup.AddPermission(LibreriaPermissions.MyPermission1, L("Permission:MyPermission1"));
     }
