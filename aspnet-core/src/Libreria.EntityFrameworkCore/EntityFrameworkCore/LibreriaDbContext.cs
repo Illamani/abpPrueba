@@ -1,4 +1,5 @@
-﻿using Libreria.Books;
+﻿using Libreria.Authors;
+using Libreria.Books;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -54,6 +55,7 @@ public class LibreriaDbContext :
 
     #endregion
     public DbSet<Book> Books { get; set; }
+    public DbSet<Author> Authors { get; set; }
     public LibreriaDbContext(DbContextOptions<LibreriaDbContext> options)
         : base(options)
     {
@@ -89,5 +91,15 @@ public class LibreriaDbContext :
             b.ConfigureByConvention();
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
         });
-    }
+        builder.Entity<Author>(b =>
+        {
+            b.ToTable(LibreriaConsts.DbTablePrefix + "Authors",
+                LibreriaConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.Name)
+            .IsRequired().HasMaxLength(AuthorConsts.MaxNameLength);
+            b.HasIndex(x => x.Name);
+        });
+        }
 }
