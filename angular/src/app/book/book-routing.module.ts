@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { BookComponent } from './book.component';
 
-const routes: Routes = [
-  { path: '', component: BookComponent, canActivate: [AuthGuard, PermissionGuard] },
-];
+const routes: Routes = [{ path: '', component: BookComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

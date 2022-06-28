@@ -1,9 +1,9 @@
-import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
+import { ListService, PagedResultDto } from '@abp/ng.core';
 import { BookService, BookDto, bookTypeOptions } from '@proxy/books';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 
 @Component({
   selector: 'app-book',
@@ -14,13 +14,13 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  selectedBook = {} as BookDto;
+  isModalOpen = false;
 
   form: FormGroup;
 
-  bookTypes = bookTypeOptions;
+  selectedBook = {} as BookDto;
 
-  isModalOpen = false;
+  bookTypes = bookTypeOptions;
 
   constructor(
     public readonly list: ListService,
